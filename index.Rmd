@@ -1,15 +1,17 @@
 ---
-title: "I have the best titles"
-author: Your name here
-subtitle: Subtitle here if desired
+title: Investigation of the eutrophication trends in the united states' northeastern
+  and midwestern lakes
+author: "Hamed Khorasani"
 ---
 
 # Introduction
-My really awesome and complete introduction will go here.  
-
-> I know words.  I have the best words.  ~ Donald Trump
+Lake eutrophication, by nature, is the process of lake aging in which the lakes are filled with sediments and the settlement of dead flora and fauna in the lake bottom. Nowadays, anthropogenic eutrophication is the accelerated process in which excess amount of nutrients from human activities stimulate the aquatic plants' growth and increase the lake productivity. Some researchers have argued that the past efforts to reduce the entrance of nutrients into rivers and lakes have not necessarily resulted in improved water quality (e.g. [Oliver et al. 2017](https://doi.org/10.1111/gcb.13810)). However, lake restoration is supposed to take several decades for most lakes to show results. Also, the aim of some actions for lake management is to enhance water quality during the warm season when the lake productivity is higher due to the higher temperature of the lake. The main aim of this study is to investigate the intra-annual trends of lake ecological conditions.
+ 
 
 # Materials and methods
+In order to investigate the trends of lake eutrophication, the LAke multi-scaled GeOSpatioal and temporal database [LAGOS](https://lagoslakes.org/) is used. The LAGOSNE package is composed of the data from 51101 lakes and reservoirs in lake-rich areas of the US ([Soranno et al., 2017](https://doi.org/10.1093/gigascience/gix101) and [Stachelek et al., 2017](https://cran.r-project.org/package=LAGOSNE)). The first step 
+
+
 
 Narrative and most code will go here.  Describe what you are doing and show how to do it (with code).
 
