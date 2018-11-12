@@ -65,9 +65,18 @@ plot2 <- ggplot(na.omit(summer_epi_nut), aes(x= logval, y=sampleyear)) +
 grid.arrange(plot1, plot2, nrow=1)
 ```
 
+Based on the drawn density estimates, it seems that the trend of annual chl-a in lakes, is not much different from the summer chl-a concentrations.
+
 # Conclusions
 
-What have you learned?  Are there any broader implications?
+as a result, it is safe to conclude that the previous findings are correct and during the past two decades, US lakes ecological conditions have not improved significantly.
 
 # References
 
+*Hakanson, L., V.V. Boulion. 2002. The Lake Foodweb: Modelling Predation and Abiotic/biotic Interactions. Backhuys Publishers. 344p
+
+* Oliver, S.K., S.M. Collins, P.A. Soranno, T. Wagner, E.H. Stanley, J.R. Jones, C.A. Stow, N.R. Lottig. 2017. Unexpected stasis in a changing world: Lake nutrient andchlorophyll trends since 1990. Global Change Biology 23
+
+* Soranno, P.A., L.C. Bacon, M. Beauchene, K.E. Bednar, E.G. Bissell, C.K. Boudreau, M.G. Boyer, M.T. Bremigan, S.R. Carpenter, J.W. Carr, K.S. Cheruvelil, S.T. Christel, M. Claucherty, S.M. Collins, J.D. Conroy, J.A. Downing, J. Dukett, C.E. Fergus, C.T. Filstrup, C. Funk, M.J. Gonzalez, L.T. Green, C. Gries, J.D. Halfman, S.K. Hamilton, P.C. Hanson, E.N. Henry, E.M. Herron, C. Hockings, J.R. Jackson, K. Jacobson-Hedin, L.L. Janus, W.W. Jones, J.R. Jones, C.M. Keson, K.B.S. King, S.A. Kishbaugh, J.-F. Lapierre, B. Lathrop, J.A. Latimore, Y. Lee, N.R. Lottig, J.A. Lynch, L.J. Matthews, W.H. McDowell, K.E.B. Moore, B.P. Neff, S.J. Nelson, S.K. Oliver, M.L. Pace, D.C. Pierson, A.C. Poisson, A.I. Pollard, D.M. Post, P.O. Reyes, D.O. Rosenberry, K.M. Roy, L.G. Rudstam, O. Sarnelle, N.J. Schuldt, C.E. Scott, N.K. Skaff, N.J. Smith, N.R. Spinelli, J.J. Stachelek, E.H. Stanley, J.L. Stoddard, S.B. Stopyak, C.A. Stow, J.M. Tallant, P.-N. Tan, A.P. Thorpe, M.J. Vanni, T. Wagner, G. Watkins, K.C. Weathers, K.E. Webster, J.D. White, M.K. Wilmes, S. Yuan. 2017. LAGOS-NE: A multi-scaled geospatial and temporal database of lake ecological context and water quality for thousands of U.S. lakes. Gigascience 6(12)  https://doi.org/10.1093/gigascience/gix101
+
+* Stachelek J., Oliver S.K., Masrour F. 2017. LAGOS: R interface to the LAke multi-scaled GeOSpatial & temporal database. R package version 1.0.0. https://CRAN.R-project.org/package=LAGOSNE
