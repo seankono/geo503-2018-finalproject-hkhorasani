@@ -9,10 +9,10 @@
 <meta name="generator" content="pandoc" />
 
 
-<meta name="author" content="Your name here" />
+<meta name="author" content="Hamed Khorasani" />
 
 
-<title>I have the best titles</title>
+<title>Investigation of the eutrophication trends in the united states’ northeastern and midwestern lakes</title>
 
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -303,76 +303,69 @@ div.tocify {
 
 
 
-<h1 class="title toc-ignore">I have the best titles</h1>
-<h3 class="subtitle"><em>Subtitle here if desired</em></h3>
-<h4 class="author"><em>Your name here</em></h4>
+<h1 class="title toc-ignore">Investigation of the eutrophication trends in the united states’ northeastern and midwestern lakes</h1>
+<h4 class="author"><em>Hamed Khorasani</em></h4>
 
 </div>
 
 
 <div id="introduction" class="section level1">
 <h1>Introduction</h1>
-<p>My really awesome and complete introduction will go here.</p>
-<blockquote>
-<p>I know words. I have the best words. ~ Donald Trump</p>
-</blockquote>
+<p>Lake eutrophication, by nature, is the process of lake aging in which the lakes are filled with sediments and the settlement of dead flora and fauna in the lake bottom. Nowadays, anthropogenic eutrophication is the accelerated process in which excess amount of nutrients from human activities stimulate the aquatic plants’ growth and increase the lake productivity. Some researchers have argued that the past efforts to reduce the entrance of nutrients into rivers and lakes have not necessarily resulted in improved water quality (e.g. <a href="https://doi.org/10.1111/gcb.13810">Oliver et al. 2017</a>). However, lake restoration is supposed to take several decades for most lakes to show results. Also, the aim of some actions for lake management is to enhance water quality during the warm season when the lake productivity is higher due to the higher temperature of the lake. The main aim of this study is to investigate the intra-annual trends of lake ecological conditions.</p>
 </div>
 <div id="materials-and-methods" class="section level1">
 <h1>Materials and methods</h1>
-<p>Narrative and most code will go here. Describe what you are doing and show how to do it (with code).</p>
-<p>You can do bullets like this:</p>
-<ul>
-<li>The first most important thing</li>
-<li>The second most important thing</li>
-<li>The third most important thing</li>
-</ul>
-<p>You can do numbers like this:</p>
-<ol style="list-style-type: decimal">
-<li>The first most important thing</li>
-<li>The second most important thing</li>
-<li>The third most important thing</li>
-</ol>
-<p>See <a href="http://rmarkdown.rstudio.com/" class="uri">http://rmarkdown.rstudio.com/</a> for all the amazing things you can do.</p>
-<p>Here’s my first code chunk.</p>
-<pre class="r"><code>1+2</code></pre>
-<pre><code>## [1] 3</code></pre>
-<p>Load any required packages in a code chunk (you may need to install some packages):</p>
-<pre class="r"><code>library(dplyr)
+<p>In order to investigate the trends of lake eutrophication, the LAke multi-scaled GeOSpatioal and temporal database <a href="https://lagoslakes.org/">LAGOS</a> is used. The LAGOSNE package is composed of the data from 51101 lakes and reservoirs in lake-rich areas of the US (<a href="https://doi.org/10.1093/gigascience/gix101">Soranno et al., 2017</a> and <a href="https://cran.r-project.org/package=LAGOSNE">Stachelek et al., 2017</a>). The first step is to load the packages as follows:</p>
+<pre class="r"><code>library(LAGOSNE)
+library(dplyr)
+library(tidyr)
 library(ggplot2)
-library(maps)
-library(spocc)
-knitr::opts_chunk$set(cache=TRUE)  # cache the results for quick compiling</code></pre>
-<p>We are going to use the <code>occ()</code> function to download <em>occurrence</em> records for the American robin (<em>Turdus migratorius</em>) from the <a href="gbif.org">Global Biodiversity Information Facility</a>.</p>
-<p><img src="https://upload.wikimedia.org/wikipedia/commons/b/b8/Turdus-migratorius-002.jpg" alt="alt text" width="200"> <small><small><small>Licensed under CC BY-SA 3.0 via <a href="https://commons.wikimedia.org/wiki/File:Turdus-migratorius-002.jpg#/media/File:Turdus-migratorius-002.jpg">Wikimedia Commons</a></small></small></small></p>
-<!-- ```{r, warning=F}  -->
-<!-- ## define which species to query -->
-<!-- sp='Turdus migratorius' -->
-<!-- ## run the query and convert to data.frame() -->
-<!-- d = occ(query=sp, from='ebird',limit = 100) %>% occ2df() -->
-<!-- ``` -->
-<!-- This can take a few seconds. -->
-<!-- ```{r, fig.width=6, fig.height=3, fig.cap="Map illustrating the known occurrence locations"} -->
-<!-- # Load coastline -->
-<!-- map=map_data("world") -->
-<!-- ggplot(d,aes(x=longitude,y=latitude))+ -->
-<!--   geom_polygon(aes(x=long,y=lat,group=group),data=map)+ -->
-<!--   geom_point(col="red")+ -->
-<!--   coord_equal() -->
-<!-- ``` -->
+library(gridExtra)</code></pre>
+<p>The <code>LAGOSNE</code> package will be used for downloading the data into a local variable as follows:</p>
+<pre class="r"><code>Dbase &lt;- lagosne_load(version = &quot;1.087.1&quot;)</code></pre>
+<p>where the downloaded database <code>Dbase</code> is a very big and complex data frame. Thus, it is useful to extract a smaller database of the data that are going to be used for drawing the results.</p>
+<pre class="r"><code>summer_epi_nut &lt;- Dbase$epi_nutr %&gt;%
+  select(lagoslakeid,chla,sampleyear,samplemonth) %&gt;%
+  filter(sampleyear&gt;=1990) %&gt;%
+  filter(samplemonth %in% c(7,8,9)) %&gt;%
+  group_by(lagoslakeid,sampleyear) %&gt;%
+  summarize(meansummerchl=mean(chla)) %&gt;%
+  mutate(logval=log10(meansummerchl))</code></pre>
+<pre class="r"><code>annual_epi_nut &lt;- Dbase$epi_nutr %&gt;%
+  select(lagoslakeid,chla,sampleyear,samplemonth) %&gt;%
+  filter(sampleyear&gt;=1990) %&gt;%
+  group_by(lagoslakeid,sampleyear) %&gt;%
+  summarize(meanannualchl=mean(chla)) %&gt;%
+  mutate(logval=log10(meanannualchl))</code></pre>
+<p>It is noteworthy to mention that most of the variables in the multi-lake databases have a lognormal distribution rather than a normal distribution (<a href="https://books.google.com/books/about/The_lake_foodweb.html?id=m28VAQAAIAAJ">Hakanson and Boullion, 2002</a>); thus, it is recommended to use the <code>log10</code> transformation for modelling or visualization.</p>
 </div>
 <div id="results" class="section level1">
 <h1>Results</h1>
-<p>Show tables, plots, etc. and describe them.</p>
-<!-- ```{r} -->
-<!-- hist(d$latitude) -->
-<!-- ``` -->
+<p>In order to find out if the result of previous studies that the ecological condition of US lakes has not improved during the last two decades and in order to check if this conclusion is not a result of using annual chl-a concentration instead of only summer chl-a concentration, the following graph is used:</p>
+<pre class="r"><code>plot1 &lt;- ggplot(na.omit(annual_epi_nut), aes(x= logval, y=sampleyear))+
+  stat_bin2d(aes(fill = stat(density)), binwidth = c(.1,1)) +
+  scale_x_continuous(limits = c(-1,3), expand = c(0.1, 0), breaks = c(-1,0,1,2,3), labels = c(&#39;0.1&#39;,&#39;1&#39;,&#39;10&#39;, &#39;100&#39;, &#39;1000&#39;)) +
+  labs(x=&quot;Annual Chl-a (mg/L)&quot;, y= &quot;Year&quot;)
+
+plot2 &lt;- ggplot(na.omit(summer_epi_nut), aes(x= logval, y=sampleyear)) +
+  stat_bin2d(aes(fill = stat(density)), binwidth = c(.1,1)) +
+  scale_x_continuous(limits = c(-1,3), expand = c(0.1, 0), breaks = c(-1,0,1,2,3), labels = c(&#39;0.1&#39;,&#39;1&#39;,&#39;10&#39;, &#39;100&#39;, &#39;1000&#39;)) +
+  labs(x=&quot;Summer Chl-a (mg/L)&quot;, y= &quot;Year&quot;)
+
+grid.arrange(plot1, plot2, nrow=1)</code></pre>
+<p><img src="index_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
+<p>Based on the drawn density estimates, it seems that the trend of annual chl-a in lakes, is not much different from the summer chl-a concentrations.</p>
 </div>
 <div id="conclusions" class="section level1">
 <h1>Conclusions</h1>
-<p>What have you learned? Are there any broader implications?</p>
+<p>as a result, it is safe to conclude that the previous findings are correct and during the past two decades, US lakes ecological conditions have not improved significantly.</p>
 </div>
 <div id="references" class="section level1">
 <h1>References</h1>
+<ul>
+<li><p>Soranno, P.A., L.C. Bacon, M. Beauchene, K.E. Bednar, E.G. Bissell, C.K. Boudreau, M.G. Boyer, M.T. Bremigan, S.R. Carpenter, J.W. Carr, K.S. Cheruvelil, S.T. Christel, M. Claucherty, S.M. Collins, J.D. Conroy, J.A. Downing, J. Dukett, C.E. Fergus, C.T. Filstrup, C. Funk, M.J. Gonzalez, L.T. Green, C. Gries, J.D. Halfman, S.K. Hamilton, P.C. Hanson, E.N. Henry, E.M. Herron, C. Hockings, J.R. Jackson, K. Jacobson-Hedin, L.L. Janus, W.W. Jones, J.R. Jones, C.M. Keson, K.B.S. King, S.A. Kishbaugh, J.-F. Lapierre, B. Lathrop, J.A. Latimore, Y. Lee, N.R. Lottig, J.A. Lynch, L.J. Matthews, W.H. McDowell, K.E.B. Moore, B.P. Neff, S.J. Nelson, S.K. Oliver, M.L. Pace, D.C. Pierson, A.C. Poisson, A.I. Pollard, D.M. Post, P.O. Reyes, D.O. Rosenberry, K.M. Roy, L.G. Rudstam, O. Sarnelle, N.J. Schuldt, C.E. Scott, N.K. Skaff, N.J. Smith, N.R. Spinelli, J.J. Stachelek, E.H. Stanley, J.L. Stoddard, S.B. Stopyak, C.A. Stow, J.M. Tallant, P.-N. Tan, A.P. Thorpe, M.J. Vanni, T. Wagner, G. Watkins, K.C. Weathers, K.E. Webster, J.D. White, M.K. Wilmes, S. Yuan. 2017. LAGOS-NE: A multi-scaled geospatial and temporal database of lake ecological context and water quality for thousands of U.S. lakes. Gigascience 6(12) <a href="https://doi.org/10.1093/gigascience/gix101" class="uri">https://doi.org/10.1093/gigascience/gix101</a></p></li>
+<li><p>Stachelek J., Oliver SK., Masrour F. 2017. LAGOS: R interface to the LAke multi-scaled GeOSpatial &amp; temporal database. R package version 1.0.0. <a href="https://CRAN.R-project.org/package=LAGOSNE" class="uri">https://CRAN.R-project.org/package=LAGOSNE</a></p></li>
+</ul>
 </div>
 
 <!-- give the footer some space -->
