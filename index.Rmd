@@ -16,6 +16,7 @@ library(LAGOSNE)
 library(dplyr)
 library(tidyr)
 library(ggplot2)
+library(gridExtra)
 ```
 
 The `LAGOSNE` package will be used for downloading the data into a local variable as follows:
@@ -24,7 +25,7 @@ The `LAGOSNE` package will be used for downloading the data into a local variabl
 Dbase <- lagosne_load(version = "1.087.1")
 ```
 
-where the downloaded database `Dbase` is a very big and complex data frame. Thus, we need to extract a smaller database of the data that are going to be used for drawing the results.
+where the downloaded database `Dbase` is a very big and complex data frame. Thus, it is useful to extract a smaller database of the data that are going to be used for drawing the results.
 
 ```{r message=FALSE}
 summer_epi_nut <- Dbase$epi_nutr %>%
@@ -36,15 +37,33 @@ summer_epi_nut <- Dbase$epi_nutr %>%
   mutate(logval=log10(meansummerchl))
 ```
 
+```{r message=FALSE}
+annual_epi_nut <- Dbase$epi_nutr %>%
+  select(lagoslakeid,chla,sampleyear,samplemonth) %>%
+  filter(sampleyear>=1990) %>%
+  group_by(lagoslakeid,sampleyear) %>%
+  summarize(meanannualchl=mean(chla)) %>%
+  mutate(logval=log10(meanannualchl))
+```
 
+It is noteworthy to mention that most of the variables in the multi-lake databases have a lognormal distribution rather than a normal distribution ([Hakanson and Boullion, 2002](https://books.google.com/books/about/The_lake_foodweb.html?id=m28VAQAAIAAJ)); thus, it is recommended to use the `log10` transformation for modelling or visualization. 
 
 # Results
+In order to find out if the result of previous studies that the ecological condition of US lakes has not improved during the last two decades and in order to check if this conclusion is not a result of using annual chl-a concentration instead of only summer chl-a concentration, the following graph is used:
 
-Show tables, plots, etc. and describe them.
+```{r message=FALSE, warning=FALSE}
+plot1 <- ggplot(na.omit(annual_epi_nut), aes(x= logval, y=sampleyear))+
+  stat_bin2d(aes(fill = stat(density)), binwidth = c(.1,1)) +
+  scale_x_continuous(limits = c(-1,3), expand = c(0.1, 0), breaks = c(-1,0,1,2,3), labels = c('0.1','1','10', '100', '1000')) +
+  labs(x="Annual Chl-a (mg/L)", y= "Year")
 
-<!-- ```{r} -->
-<!-- hist(d$latitude) -->
-<!-- ``` -->
+plot2 <- ggplot(na.omit(summer_epi_nut), aes(x= logval, y=sampleyear)) +
+  stat_bin2d(aes(fill = stat(density)), binwidth = c(.1,1)) +
+  scale_x_continuous(limits = c(-1,3), expand = c(0.1, 0), breaks = c(-1,0,1,2,3), labels = c('0.1','1','10', '100', '1000')) +
+  labs(x="Summer Chl-a (mg/L)", y= "Year")
+
+grid.arrange(plot1, plot2, nrow=1)
+```
 
 # Conclusions
 
