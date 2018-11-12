@@ -77,7 +77,7 @@ as a result, it is safe to conclude that the previous findings are correct and d
 
 # References
 
-*Hakanson, L., V.V. Boulion. 2002. The Lake Foodweb: Modelling Predation and Abiotic/biotic Interactions. Backhuys Publishers. 344p
+* Hakanson, L., V.V. Boulion. 2002. The Lake Foodweb: Modelling Predation and Abiotic/biotic Interactions. Backhuys Publishers. 344p
 
 * Oliver, S.K., S.M. Collins, P.A. Soranno, T. Wagner, E.H. Stanley, J.R. Jones, C.A. Stow, N.R. Lottig. 2017. Unexpected stasis in a changing world: Lake nutrient andchlorophyll trends since 1990. Global Change Biology 23
 
