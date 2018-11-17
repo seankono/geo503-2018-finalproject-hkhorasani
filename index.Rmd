@@ -4,7 +4,7 @@ title: Investigation of the eutrophication trends in the united states' northeas
 author: "Hamed Khorasani"
 ---
 
-# Introduction
+# Introduction -trying pull request
 Lake eutrophication, by nature, is the process of lake aging in which the lakes are filled with sediments and the settlement of dead flora and fauna in the lake bottom. Nowadays, anthropogenic eutrophication is the accelerated process in which excess amount of nutrients from human activities stimulate the aquatic plants' growth and increase the lake productivity. Some researchers have argued that the past efforts to reduce the entrance of nutrients into rivers and lakes have not necessarily resulted in improved water quality (e.g. [Oliver et al. 2017](https://doi.org/10.1111/gcb.13810)). The following [graph](https://github.com/AdamWilsonLabEDU/geo503-2018-finalproject-hkhorasani/blob/master/chl_histogram_oliver_2017.gif) supports this claim:
 
 ![](https://github.com/AdamWilsonLabEDU/geo503-2018-finalproject-hkhorasani/blob/master/chl_histogram_oliver_2017.gif)
